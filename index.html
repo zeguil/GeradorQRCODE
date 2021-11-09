@@ -1,45 +1,98 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <title>Gerador de QRCode</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width,initial-scale=1,user-scalable=no"
-    />
-    <script
-      type="text/javascript"
-      src="js/jquery.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="js/qrcode.js"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="icon" type="image/gif/png" href="img/qr-code.png">
-    <style>
-      *{
+
+<head>
+  <title>Gerador de QRCode</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/qrcode.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/gif/png" href="img/qr-code.png">
+  <style>
+    * {
+      font-family: 'Roboto', sans-serif;
+      margin: 15px;
+
+      font-size: 20px;
+    }
+
+    body {
+      display: flex;
+      background-color: #000000;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: hidden;
+    }
+
+    h1 {
+      color: white;
+      font-size: 28px;
+    }
+
+    a#downloadQrCode {
+      text-decoration: none;
+      background-color: #dad72b;
+      color: black;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+
+      transition: background-color 0.02s;
+    }
+
+    a#downloadQrCode:hover {
+      background-color: #8b8a28;
+      box-shadow: none;
+    }
+
+    i {
+      background: none;
+      margin: 5px;
+    }
+
+    div#qrcode {
+      border-radius: 20px;
+      padding: 10px;
+      background-color: white;
+    }
+
+    input[type='text'] {
+      border-radius: 10px;
+      border: 3px solid #dad72b;
+      width: 30vw;
+      text-align: center;
+      background-color: aliceblue;
+      font-weight: 400;
+    }
+
+    div#qrcode img {
+      margin: 0;
+    }
+
+    /* para celular */
+
+    @media only screen and (max-width: 600px) {
+      * {
         font-family: 'Roboto', sans-serif;
-        margin: 25px;
-        
+        margin: 15px;
+
         font-size: 20px;
       }
+
       body {
         display: flex;
         background-color: #000000;
         flex-direction: column;
         align-items: center;
       }
+
       h1 {
         color: white;
-        font-size: 28px;
+        font-size: 25px;
       }
 
       a#downloadQrCode {
@@ -54,6 +107,7 @@
 
         transition: background-color 0.02s;
       }
+
       a#downloadQrCode:hover {
         background-color: #8b8a28;
         box-shadow: none;
@@ -61,7 +115,7 @@
 
       i {
         background: none;
-        margin: 5px;
+        margin: 8px;
       }
 
       div#qrcode {
@@ -69,10 +123,11 @@
         padding: 10px;
         background-color: white;
       }
+
       input[type='text'] {
         border-radius: 10px;
         border: 3px solid #dad72b;
-        width: 30vw;
+        width: 60vw;
         text-align: center;
         background-color: aliceblue;
         font-weight: 400;
@@ -81,63 +136,51 @@
       div#qrcode img {
         margin: 0;
       }
-      
-      .github{
-        display: flex;
-        align-items: flex-end;
-        justify-content: flex-end;
-        color: white;
-        margin-right: 5%;
-      }
-    </style>
-  </head>
-  <body>
-    <h1><i class="fa fa-qrcode" aria-hidden="true"></i>Gerador de QRCode</h1>
-    <input
-      id="text"
-      type="text"
-      placeholder="Digite aqui para gerar o QRCode...."
-      onkeyup="makeCode()"
-      maxlength="192"
-    />
-    <div id="qrcode"></div>
-    <a id="downloadQrCode" download
-      ><i class="fa fa-download" aria-hidden="true"></i> DOWNLOAD QRCODE</a>
-    
-        
-    
-    <script type="text/javascript">
-      var qrcode = new QRCode(document.getElementById('qrcode'), {
-        width: 500,
-        height: 500,
-        border: 25,
-      });
+    }
+  </style>
+</head>
 
-      async function makeCode() {
-        var elText = document.getElementById('text');
+<body>
+  <h1><i class="fa fa-qrcode" aria-hidden="true"></i>Gerador de QRCode</h1>
+  <input id="text" type="text" placeholder="Digite aqui para gerar o QRCode...." onkeyup="makeCode()" maxlength="192" />
+  <div id="qrcode"></div>
+  <a id="downloadQrCode" download><i class="fa fa-download" aria-hidden="true"></i> DOWNLOAD QRCODE</a>
 
-        // if (!elText.value) {
-        //   alert('Input a text');
-        //   elText.focus();
-        //   return;
-        // }
-        await qrcode.makeCode(elText.value);
-        let img = document.getElementsByTagName('img')[0].getAttribute('src');
-        let download = document.getElementById('downloadQrCode');
-        download.setAttribute('href', img);
-      }
 
-      makeCode();
 
-      $('#text')
-        .on('blur', function () {
+  <script type="text/javascript">
+    var qrcode = new QRCode(document.getElementById('qrcode'), {
+      width: 300,
+      height: 300,
+      border: 25,
+    });
+
+    async function makeCode() {
+      var elText = document.getElementById('text');
+
+      // if (!elText.value) {
+      //   alert('Input a text');
+      //   elText.focus();
+      //   return;
+      // }
+      await qrcode.makeCode(elText.value);
+      let img = document.getElementsByTagName('img')[0].getAttribute('src');
+      let download = document.getElementById('downloadQrCode');
+      download.setAttribute('href', img);
+    }
+
+    makeCode();
+
+    $('#text')
+      .on('blur', function () {
+        makeCode();
+      })
+      .on('keydown', function (e) {
+        if (e.keyCode == 13) {
           makeCode();
-        })
-        .on('keydown', function (e) {
-          if (e.keyCode == 13) {
-            makeCode();
-          }
-        });
-    </script>
-  </body>
+        }
+      });
+  </script>
+</body>
+
 </html>
